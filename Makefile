@@ -3,6 +3,7 @@
 # ==============================
 
 SRC     =	execute.c			\
+			ft_pwd.c	\
 			pipex/ft_split.c		\
 			pipex/find_path.c		\
 			pipex/ft_putstr.c	\

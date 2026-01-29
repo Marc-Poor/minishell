@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/12 19:04:00 by mfaure            #+#    #+#             */
-/*   Updated: 2026/01/29 12:59:05 by mfaure           ###   ########.fr       */
+/*   Created: 2026/01/29 12:47:00 by mfaure            #+#    #+#             */
+/*   Updated: 2026/01/29 13:07:27 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "pipex/pipex.h"
 
+char	*find_str_in_env(char **env, char *str, int i)
+{
+	while (env[i])
+	{
+		if (env[i] && ft_strncmp(env[i], "PWD", 3) == 0 && env[i][3] == '=') {
+			str = env[i] + 4;
+			}
+		i++;
+	}
+	if (str == 0)
+			return ("error : missing PWD\n");
+	return (str);
+}
 
-# include <fcntl.h>
-# include <stddef.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <unistd.h>
-
-int	ft_isdigit(int c);
-void ft_pwd(char **env);
-
-#endif
+void ft_pwd(char **env)
+{
+	printf("%s\n", find_str_in_env(env, 0, 0));
+}

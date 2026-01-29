@@ -6,11 +6,12 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:52:58 by mfaure            #+#    #+#             */
-/*   Updated: 2026/01/28 16:35:33 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/01/29 13:00:04 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex/pipex.h"
+#include "minishell.h"
 
 void	close_fd(int pipefd[2])
 {
@@ -89,8 +90,10 @@ int execute(char **av, char **env)
 
 int main(int ac, char **av, char **env)
 {
-	if (ac < 2)
+	if (ac < 2) {
+		ft_pwd(env);
 		return (0);
+	}
 	execute(av++, env);
 	return (0);
 }
