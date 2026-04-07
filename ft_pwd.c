@@ -6,11 +6,11 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 12:47:00 by mfaure            #+#    #+#             */
-/*   Updated: 2026/01/29 13:07:27 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/06 17:46:25 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex/pipex.h"
+#include "minishell.h"
 
 char	*find_str_in_env(char **env, char *str, int i)
 {

@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/29 13:36:27 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/06 22:06:02 by mfaure           ###   ########.fr       */
+/*   Created: 2025/05/12 17:09:21 by mfaure            #+#    #+#             */
+/*   Updated: 2025/05/13 16:58:23 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex/pipex.h"
-
-void ft_env(char **env)
+int	ft_isalpha(int c)
 {
-	int i;
-
-	if (!env)
-		return ;
-	i = 0;
-	while(env[i] != NULL)
-	{
-		printf("%s\n", env[i]);
-		i++;
-	}
+	if (c >= 'A' && c <= 'Z')
+		return (c);
+	if (c >= 'a' && c <= 'z')
+		return (c);
+	return (0);
 }
-
-/*
-int main(int ac, char **av, char **env)
-{
-	ft_env(env);
-	return 0;
-}
-*/
