@@ -6,7 +6,7 @@
 /*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/03/27 19:36:35 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/12 02:44:18 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	is_only_spaces(char *s)
 static void	process_line(char *line)
 {
 	t_token	*toks;
+	t_cmd	*cmds;
 
 	toks = tokenize_line(line);
 	if (!toks)
@@ -56,7 +57,20 @@ static void	process_line(char *line)
 		printf("Erreur de syntaxe : quotes non fermées\n");
 		return ;
 	}
+	if (check_syntax(toks))
+	{
+		clear_token(&toks);
+		return ;
+	}
 	print_tokens(toks);
+	cmds = parse_commands(toks);
+	if (!cmds)
+	{
+		clear_token(&toks);
+		return ;
+	}
+	print_cmds(cmds);
+	free_cmds(&cmds);
 	clear_token(&toks);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:02:18 by mseguin           #+#    #+#             */
-/*   Updated: 2026/03/27 19:01:23 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/12 02:10:25 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,20 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+typedef struct s_redir
+{
+	t_tokentype		type;
+	char			*file;
+	struct s_redir	*next;
+}	t_redir;
+
+typedef struct s_cmd
+{
+	char			**argv;
+	t_redir			*redirs;
+	struct s_cmd	*next;
+}	t_cmd;
+
 t_token				*new_token(t_tokentype type, char *str);
 void				add_token(t_token **lst, t_token *new_tok);
 void				clear_token(t_token **lst);
@@ -52,5 +66,14 @@ char				*expand_variables(char *str);
 char				*append_char(char *s, char c);
 char				*append_str(char *s, char *add);
 char				*expand_word(const char *s, int start, int end);
+
+int					check_syntax(t_token *lst);
+
+t_cmd				*parse_commands(t_token *tokens);
+void				free_cmds(t_cmd **cmds);
+void				print_cmds(t_cmd *cmds);
+
+t_redir				*redir_new(t_tokentype type, char *file);
+void				redir_add_back(t_redir **lst, t_redir *new_redir);
 
 #endif
