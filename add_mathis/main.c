@@ -6,7 +6,7 @@
 /*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/12 02:44:18 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/17 19:48:57 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,11 @@ static void	process_line(char *line)
 		clear_token(&toks);
 		return ;
 	}
+	/*
+	
+	code 
+	
+	*/
 	print_cmds(cmds);
 	free_cmds(&cmds);
 	clear_token(&toks);
