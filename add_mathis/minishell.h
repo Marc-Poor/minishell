@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:02:18 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/12 02:10:25 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/18 17:14:24 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,15 @@
 # define MINISHELL_H
 
 # include <stdlib.h>
+# include <fcntl.h>
+# include <stddef.h>
+# include <stdio.h>
+# include <string.h>
+# include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <unistd.h>
+# include "../pipex/pipex.h"
 
 typedef enum e_tokentype
 {
@@ -45,6 +54,20 @@ typedef struct s_cmd
 	t_redir			*redirs;
 	struct s_cmd	*next;
 }	t_cmd;
+
+
+
+int	ft_isdigit(int c);
+int	ft_isalpha(int c);
+char	*ft_strdup(const char *src);
+void ft_pwd(char **env);
+void ft_env(char **env);
+char **ft_unset(char *str, char **env);
+char **ft_realloc_tab(char **tab, size_t new_len);
+int	execute(t_cmd *cmds, t_cmd *cmds2, char **env);
+void	close_all(int pipefd[2], int infile, int outfile);
+void	close_fd(int pipefd[2]);
+
 
 t_token				*new_token(t_tokentype type, char *str);
 void				add_token(t_token **lst, t_token *new_tok);

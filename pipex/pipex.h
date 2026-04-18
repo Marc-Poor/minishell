@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:13:46 by mfaure            #+#    #+#             */
-/*   Updated: 2025/11/12 17:45:11 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/18 18:17:24 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,14 @@ typedef struct s_pipex
 	int		pipefd[2];
 	int		wstatus;
 	int		wstatus2;
+	int		piped;
 
 }			t_pipex;
 
 char		*ft_realloc_str(char *str, size_t new_len);
 char		*get_next_line(int fd);
 size_t		ft_strcat(char *dst, const char *src);
-int			ft_strlen(char *str);
+size_t		ft_strlen(const char *str);
 char		**ft_split(char const *s, char c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 void		close_all(int pipefd[2], int infile, int outfile);

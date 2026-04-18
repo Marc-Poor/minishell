@@ -6,20 +6,12 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:52:58 by mfaure            #+#    #+#             */
-/*   Updated: 2026/01/29 13:00:04 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/18 20:34:28 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex/pipex.h"
-#include "minishell.h"
-
-void	close_fd(int pipefd[2])
-{
-	if (pipefd[0])
-		close(pipefd[0]);
-	if (pipefd[1])
-		close(pipefd[1]);
-}
+#include "add_mathis/minishell.h"
 
 void	free_command(char **tab)
 {
@@ -34,12 +26,6 @@ void	free_command(char **tab)
 		i++;
 	}
 	free(tab);
-}
-
-void	open_p(char **env)
-{
-	if (!env || !env[0])
-		exit(1);
 }
 
 void	exec_cmd(char **cmd, char **env)
@@ -65,36 +51,119 @@ void	exec_cmd(char **cmd, char **env)
 	}
 	execve(path, cmd, env);
 	perror("execve failed");
-	exit(EXIT_FAILURE);
+	exit(1);
 }
 
-int execute(char **av, char **env)
+void	open_p(t_pipex *p, t_cmd *cmds, char **env)
+{
+	t_redir *r;
+
+	p->piped = 0;
+	if (!cmds || !env || !env[0])
+		exit(1);
+	if (!cmds->redirs)
+		return ;
+	r = cmds->redirs;
+	while (r)
+	{
+		if (r->type == T_REDIR_IN)
+		{
+			p->infile = open(r->file, O_RDONLY);
+			if (p->infile < 0)
+			{
+				perror("infile");
+				exit(1);
+			}
+		}
+		else if (r->type == T_REDIR_OUT)
+		{
+			p->outfile = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (p->outfile < 0)
+			{
+				perror("outfile");
+				exit(1);
+			}
+		}
+		r = r->next;
+	}
+}
+
+/*.
+	if (cmds->redirs->type == T_REDIR_IN)
+	{
+		p->infile = open(cmds->redirs->file, O_RDONLY);
+		if (p->infile < 0)
+		{
+			perror("infile or outfile");
+			exit(1);
+		}
+	}
+	if (cmds->redirs->type == T_REDIR_OUT)
+	{
+		p->outfile = open(cmds->redirs->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (p->outfile < 0)
+		{
+			close(p->infile);
+			perror("infile or outfile");
+			exit(1);
+		}
+	}
+*/
+
+void	ft_dup(t_pipex p, t_cmd *cmds)
+{
+	if (cmds->redirs->type == T_REDIR_IN) {
+		dup2(p.infile, STDIN_FILENO);
+	}
+	if (cmds->redirs->type == T_REDIR_OUT)
+		dup2(p.outfile, STDOUT_FILENO);
+	if (cmds->next)
+	{
+		dup2(p.pipefd[1], STDOUT_FILENO);
+		p.piped = 1;
+		return ;
+	}
+	if (p.piped == 1) 
+	{
+		dup2(p.pipefd[0], STDIN_FILENO);
+		p.piped = 0;
+	}
+}
+
+int	execute(t_cmd *cmds, t_cmd *cmds2, char **env)
 {
 	t_pipex	p;
 
-	open_p(env);
+	p.infile = -1;
+	p.outfile = -1;
+	open_p(&p, cmds, env);
 	if (pipe(p.pipefd) == -1)
 		exit(1);
 	p.pid1 = fork();
 	if (p.pid1 == 0)
 	{
-		close_fd(p.pipefd);
-		exec_cmd(av, env);
+		if (cmds->redirs)
+			ft_dup(p, cmds);
+		close_all(p.pipefd, p.infile, p.outfile);
+		exec_cmd(cmds->argv, env);
 	}
-	close_fd(p.pipefd);
+	open_p(&p, cmds2, env);
+	printf("inside\n");
+	p.pid2 = fork();
+	if (p.pid2 == 0)
+	{
+		ft_dup(p, cmds2);
+		close_all(p.pipefd, p.infile, p.outfile);
+		printf("inside\n");
+		exec_cmd(cmds2->argv, env);
+	}
+	close_all(p.pipefd, p.infile, p.outfile);
 	waitpid(p.pid1, &p.wstatus, 0);
 	if (!WIFEXITED(p.wstatus))
 		return (-1);
-	return (0);
-}
-
-int main(int ac, char **av, char **env)
-{
-	if (ac < 2) {
-		ft_pwd(env);
-		return (0);
-	}
-	execute(av++, env);
+	//waitpid(p.pid2, NULL, 0);
+	if (cmds2 == NULL)
+		return 1;
 	return (0);
 }
 

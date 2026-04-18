@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 02:11:01 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/04/12 02:42:50 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/15 18:10:46 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h"
+#include "libft/libft.h"
 
 static int	count_args_until_pipe(t_token *tok)
 {

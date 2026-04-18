@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/17 19:48:57 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/18 16:37:56 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ volatile sig_atomic_t	g_sig = 0;
 static void	handle_sigint(int sig)
 {
 	g_sig = sig;
-	write(1, "\n", 1);
+
+	printf("\n");
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -46,7 +47,7 @@ static int	is_only_spaces(char *s)
 	return (1);
 }
 
-static void	process_line(char *line)
+static void	process_line(char *line, char **env)
 {
 	t_token	*toks;
 	t_cmd	*cmds;
@@ -69,20 +70,18 @@ static void	process_line(char *line)
 		clear_token(&toks);
 		return ;
 	}
-	/*
-	
-	code 
-	
-	*/
 	print_cmds(cmds);
+	execute(cmds, cmds->next, env);
 	free_cmds(&cmds);
 	clear_token(&toks);
 }
 
-int	main(void)
+int	main(int ac, char **av, char **env)
 {
 	char	*line;
 
+	if (ac == 0 || !av[0])
+		return 0;
 	setup_signals();
 	while (1)
 	{
@@ -90,13 +89,13 @@ int	main(void)
 		line = readline("minishell$ ");
 		if (!line)
 		{
-			write(1, "exit\n", 5);
+				printf("exit\n");
 			break ;
 		}
 		if (line[0] != '\0' && !is_only_spaces(line))
 			add_history(line);
 		if (line[0] != '\0' && !is_only_spaces(line))
-			process_line(line);
+			process_line(line, env);
 		free(line);
 	}
 	clear_history();

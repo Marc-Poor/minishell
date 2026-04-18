@@ -2,7 +2,8 @@
 # so_long Makefile
 # ==============================
 
-SRC     =	main.c			\
+SRC     =	../execute.c	\
+			../ft_pwd.c		\
 			ft_strcat.c		\
 			ft_strlen.c		\
 			ft_putstr.c		\
@@ -30,6 +31,7 @@ $(NAME):	$(OBJ)
 clean:
 	rm -f $(OBJ)
 	rm -f *.o
+	rm -f ../*.o
 	rm -f *.gcno
 	rm -f *.gcda
 
