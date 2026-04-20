@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/18 16:37:56 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/20 15:41:00 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	process_line(char *line, char **env)
 		return ;
 	}
 	print_cmds(cmds);
-	execute(cmds, cmds->next, env);
+	execute(cmds, env);
 	free_cmds(&cmds);
 	clear_token(&toks);
 }

@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:02:18 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/18 17:14:24 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/20 15:41:31 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void ft_pwd(char **env);
 void ft_env(char **env);
 char **ft_unset(char *str, char **env);
 char **ft_realloc_tab(char **tab, size_t new_len);
-int	execute(t_cmd *cmds, t_cmd *cmds2, char **env);
+int	execute(t_cmd *cmds, char **env);
 void	close_all(int pipefd[2], int infile, int outfile);
 void	close_fd(int pipefd[2]);
 

@@ -6,7 +6,7 @@
 #    By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/03 20:11:23 by mathissegui       #+#    #+#              #
-#    Updated: 2026/04/18 18:21:38 by mfaure           ###   ########.fr        #
+#    Updated: 2026/04/20 12:52:38 by mfaure           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,6 @@ SRC     =	main.c			\
 			../execute.c			\
 			../pipex/ft_split.c		\
 			../pipex/find_path.c		\
-			../pipex/ft_putstr.c	\
 			../pipex/ft_strcat.c		\
 			../pipex/ft_strncmp.c	\
 			../pipex/ft_strncpy.c

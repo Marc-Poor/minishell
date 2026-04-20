@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 16:57:28 by mfaure            #+#    #+#             */
-/*   Updated: 2025/11/04 10:49:52 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/20 12:53:34 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*find_path(char **env, char *ftname, int i)
 		free(full_path);
 		i++;
 	}
-	ft_putstr(ftname);
+	printf("%s", ftname);
 	free_tab(tab);
 	return (NULL);
 }

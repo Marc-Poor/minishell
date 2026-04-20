@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:13:46 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/18 18:17:24 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/20 15:40:15 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_pipex
 	int		pipefd[2];
 	int		wstatus;
 	int		wstatus2;
-	int		piped;
+	pid_t pid;
 
 }			t_pipex;
 

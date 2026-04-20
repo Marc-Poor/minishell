@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:53:54 by mfaure            #+#    #+#             */
-/*   Updated: 2026/01/29 14:59:13 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/20 18:11:24 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void ft_echo(char *s, int i)
 	printf("%s\n", s);
 }
 
-int main(int ac, char **av, char **env)
+int main_ft_echo(char **av)
 {
-	if (ac == 3)
+	if (ft_strncmp(av[1], "-n", ft_strlen(av[1])) == 0)
 		ft_echo(av[2], 0);
 	ft_echo(av[1], 1);
 	return 0;
