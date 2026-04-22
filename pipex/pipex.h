@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:13:46 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/20 15:40:15 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/22 19:10:10 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 
 typedef struct s_pipex
 {
+	pid_t 	pid;
 	pid_t	pid1;
 	pid_t	pid2;
 	int		infile;
@@ -36,8 +37,7 @@ typedef struct s_pipex
 	int		pipefd[2];
 	int		wstatus;
 	int		wstatus2;
-	pid_t pid;
-
+	int 	status;
 }			t_pipex;
 
 char		*ft_realloc_str(char *str, size_t new_len);

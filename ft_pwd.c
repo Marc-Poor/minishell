@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 12:47:00 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/06 17:46:25 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/21 19:11:53 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ char	*find_str_in_env(char **env, char *str, int i)
 	return (str);
 }
 
-void ft_pwd(char **env)
+int ft_pwd(char **env)
 {
+	if (!env)
+		return (-1);
 	printf("%s\n", find_str_in_env(env, 0, 0));
+	return (0);
 }

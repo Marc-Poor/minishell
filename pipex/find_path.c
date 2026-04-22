@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/01 16:57:28 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/20 12:53:34 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/21 16:54:00 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	free_tab(char **tab)
 	free(tab);
 }
 
-char	**find_in_env(char **env, char **tab, int i)
+char	**find_path_in_env(char **env, char **tab, int i)
 {
 	while (env[i])
 	{
@@ -43,7 +43,7 @@ char	*find_path(char **env, char *ftname, int i)
 	char	**tab;
 	char	*full_path;
 
-	tab = find_in_env(env, NULL, 0);
+	tab = find_path_in_env(env, NULL, 0);
 	while (tab && tab[i])
 	{
 		full_path = malloc(ft_strlen(tab[i]) + ft_strlen(ftname) + 2);

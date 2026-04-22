@@ -6,11 +6,11 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:38:39 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/07 15:46:05 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/21 16:52:37 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "add_mathis/minishell.h"
 
 int find_in_env(char *str, char **env)
 {
@@ -38,16 +38,16 @@ int find_in_env(char *str, char **env)
 	return -1;
 }
 
-char **ft_unset(char *str, char **env) 
+char **ft_unset(char **av, char **env) 
 { 
 	int x;
 
-	if (!str || !env)
+	if (!av[1] || !env)
 		return NULL;
-	x = find_in_env(str, env); 
+	x = find_in_env(av[1], env); 
 	if (x < 0) {
 		printf("%i\n", x);
-		printf("bash: unset: '%s': not a valid identifier\n", str); 
+		printf("bash: unset: '%s': not a valid identifier\n", av[1]); 
 		return env;
 	} 
 	free(env[x]); 

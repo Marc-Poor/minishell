@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/20 15:41:00 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/21 17:33:17 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	is_only_spaces(char *s)
 	return (1);
 }
 
-static void	process_line(char *line, char **env)
+static void	process_line(char *line, char ***env)
 {
 	t_token	*toks;
 	t_cmd	*cmds;
@@ -79,7 +79,9 @@ static void	process_line(char *line, char **env)
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
+	char	**envcp;
 
+	envcp = copy_tab(env);
 	if (ac == 0 || !av[0])
 		return 0;
 	setup_signals();
@@ -95,7 +97,7 @@ int	main(int ac, char **av, char **env)
 		if (line[0] != '\0' && !is_only_spaces(line))
 			add_history(line);
 		if (line[0] != '\0' && !is_only_spaces(line))
-			process_line(line, env);
+			process_line(line, &envcp);
 		free(line);
 	}
 	clear_history();

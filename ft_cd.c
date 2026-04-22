@@ -3,6 +3,7 @@
 
 int	ft_cd(char **av)
 {
+	printf("cd\n");
 	if (!av[1])
 	{
 		printf("cd: missing argument\n");

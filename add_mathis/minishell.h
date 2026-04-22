@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:02:18 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/20 15:41:31 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/21 19:12:56 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,21 @@ typedef struct s_cmd
 
 
 
-int	ft_isdigit(int c);
-int	ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_isalpha(int c);
 char	*ft_strdup(const char *src);
-void ft_pwd(char **env);
-void ft_env(char **env);
-char **ft_unset(char *str, char **env);
-char **ft_realloc_tab(char **tab, size_t new_len);
-int	execute(t_cmd *cmds, char **env);
+char 	**ft_unset(char **av, char **env);
+char 	**ft_realloc_tab(char **tab, size_t new_len);
+int		execute(t_cmd *cmds,  char ***env);
+char	**ft_export_main(char **av, char **env);
 void	close_all(int pipefd[2], int infile, int outfile);
 void	close_fd(int pipefd[2]);
+int		ft_cd(char **av);
+int		ft_exit(char **argv);
+char	**copy_tab(char **env);
+int 	main_ft_echo(char **av);
+int 	ft_pwd(char **env);
+int 	ft_env(char **env);
 
 
 t_token				*new_token(t_tokentype type, char *str);
