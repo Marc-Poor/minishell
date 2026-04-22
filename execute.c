@@ -6,12 +6,14 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:52:58 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/20 16:01:42 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/22 19:19:18 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex/pipex.h"
 #include "add_mathis/minishell.h"
+#include "pipex/pipex.h"
+#include <readline/readline.h>
+#include <readline/history.h>
 
 void	free_command(char **tab)
 {
@@ -26,6 +28,33 @@ void	free_command(char **tab)
 		i++;
 	}
 	free(tab);
+}
+
+int	handle_heredoc(char *delimiter)
+{
+	int		fd[2];
+	char	*line;
+
+	if (pipe(fd) == -1)
+		exit(1);
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			break;
+		if (strcmp(line, delimiter) == 0)
+		{
+			free(line);
+			break;
+		}
+		write(fd[1], line, strlen(line));
+		write(fd[1], "\n", 1);
+		free(line);
+	}
+
+	close(fd[1]); // important
+	return (fd[0]); // return read end
 }
 
 void	exec_cmd(char **cmd, char **env)
@@ -56,9 +85,10 @@ void	exec_cmd(char **cmd, char **env)
 
 void	open_p(t_pipex *p, t_cmd *cmds, char **env)
 {
-	t_redir *r;
+	t_redir	*r;
 
-	if (!env || !env[0]) {
+	if (!env || !env[0])
+	{
 		printf("exit\n");
 		exit(1);
 	}
@@ -76,9 +106,18 @@ void	open_p(t_pipex *p, t_cmd *cmds, char **env)
 				exit(1);
 			}
 		}
-		else if (r->type == T_REDIR_OUT)
+		if (r->type == T_HEREDOC)
 		{
-			p->outfile = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (p->infile != -1)
+				close(p->infile);
+			p->infile = handle_heredoc(r->file);
+		}
+		else if (r->type == T_REDIR_OUT || r->type == T_REDIR_APPEND)
+		{
+			if (r->type == T_REDIR_OUT)
+				p->outfile = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			else
+				p->outfile = open(r->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			if (p->outfile < 0)
 			{
 				perror("outfile");
@@ -101,7 +140,8 @@ void	open_p(t_pipex *p, t_cmd *cmds, char **env)
 	}
 	if (cmds->redirs->type == T_REDIR_OUT)
 	{
-		p->outfile = open(cmds->redirs->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		p->outfile = open(cmds->redirs->file, O_WRONLY | O_CREAT | O_TRUNC,
+				0644);
 		if (p->outfile < 0)
 		{
 			close(p->infile);
@@ -111,15 +151,13 @@ void	open_p(t_pipex *p, t_cmd *cmds, char **env)
 	}
 */
 
-void ft_dup(t_pipex *p, t_cmd *cmds, int is_first)
+void	ft_dup(t_pipex *p, t_cmd *cmds, int is_first)
 {
 	// INPUT
 	if (!is_first)
 		dup2(p->pipefd[0], STDIN_FILENO);
-
 	if (cmds->redirs && cmds->redirs->type == T_REDIR_IN)
 		dup2(p->infile, STDIN_FILENO);
-
 	// OUTPUT
 	if (cmds->next)
 		dup2(p->pipefd[1], STDOUT_FILENO);
@@ -127,36 +165,61 @@ void ft_dup(t_pipex *p, t_cmd *cmds, int is_first)
 		dup2(p->outfile, STDOUT_FILENO);
 }
 
-int end_it(t_pipex *p)
+int	end_it(t_pipex *p)
 {
 	waitpid(p->pid1, &p->wstatus, 0);
 	if (!WIFEXITED(p->wstatus))
 		return (-1);
-	return 0;	
+	return (0);
 }
 
 static void	close_fds_child(int prev_fd, t_pipex *p, t_cmd *cmd)
 {
 	if (prev_fd != -1)
 		close(prev_fd);
-
 	if (cmd->next)
 	{
 		close(p->pipefd[0]);
 		close(p->pipefd[1]);
 	}
-
 	if (p->infile != -1)
 		close(p->infile);
 	if (p->outfile != -1)
 		close(p->outfile);
 }
 
-int	execute(t_cmd *cmds, char **env)
+char **exec_parent_built_in(t_cmd	*curr, char **env)
+{
+	if (strncmp(curr->argv[0], "cd", ft_strlen(curr->argv[0])) == 0)
+		if (ft_cd(curr->argv) == 1)
+			return NULL;
+	if (strncmp(curr->argv[0], "export", ft_strlen(curr->argv[0])) == 0)
+		return (ft_export_main(curr->argv, env));
+	if (strncmp(curr->argv[0], "unset", ft_strlen(curr->argv[0])) == 0)
+		return (ft_unset(curr->argv, env));
+	if (strncmp(curr->argv[0], "exit", ft_strlen(curr->argv[0])) == 0)
+		ft_exit(curr->argv);
+	return (env);
+}
+
+int	exec_child_builtin(t_cmd *curr, char **env)
+{
+	if (strcmp(curr->argv[0], "echo") == 0)
+		return (main_ft_echo(curr->argv));
+	if (strcmp(curr->argv[0], "pwd") == 0)
+		return (ft_pwd(env));
+	if (strcmp(curr->argv[0], "env") == 0)
+		return (ft_env(env));
+	return (-1);
+}
+
+int	execute(t_cmd *cmds, char ***env)
 {
 	t_pipex	p;
 	int		prev_fd;
 	t_cmd	*curr;
+	char **tmp;
+	int		ret;
 
 	prev_fd = -1;
 	curr = cmds;
@@ -164,7 +227,21 @@ int	execute(t_cmd *cmds, char **env)
 	{
 		p.infile = -1;
 		p.outfile = -1;
-		open_p(&p, curr, env);
+		if (curr && !curr->next && prev_fd == -1)
+		{
+			if (strncmp(curr->argv[0], "cd", 3) == 0
+				|| strncmp(curr->argv[0], "export", 7) == 0
+				|| strncmp(curr->argv[0], "unset", 6) == 0
+				|| strncmp(curr->argv[0], "exit", 5) == 0)
+			{
+				tmp = exec_parent_built_in(curr, *env);
+				if (tmp == NULL)
+					return (0);
+				*env = tmp;
+				return (0);
+			}
+		}
+		open_p(&p, curr, *env);
 		// create pipe only if needed
 		if (curr->next)
 		{
@@ -177,16 +254,20 @@ int	execute(t_cmd *cmds, char **env)
 			// ---------- INPUT ----------
 			if (prev_fd != -1)
 				dup2(prev_fd, STDIN_FILENO);
-			if (curr->redirs && curr->redirs->type == T_REDIR_IN)
+			if (curr->redirs && (curr->redirs->type == T_REDIR_IN || curr->redirs->type == T_HEREDOC))
 				dup2(p.infile, STDIN_FILENO);
 			// ---------- OUTPUT ----------
 			if (curr->next)
 				dup2(p.pipefd[1], STDOUT_FILENO);
 			else if (curr->redirs && curr->redirs->type == T_REDIR_OUT)
 				dup2(p.outfile, STDOUT_FILENO);
+			else if (curr->redirs && curr->redirs->type == T_REDIR_APPEND)
+				dup2(p.outfile, STDOUT_FILENO);
 			// ---------- CLOSE FDS ----------
-			close_fds_child(prev_fd, &p, cmds);
-			exec_cmd(curr->argv, env);
+			close_fds_child(prev_fd, &p, curr);
+			if ((ret = exec_child_builtin(curr, *env)) != -1)
+				exit(ret);
+			exec_cmd(curr->argv, *env);
 			exit(1);
 		}
 		// ---------- PARENT ----------
@@ -194,7 +275,7 @@ int	execute(t_cmd *cmds, char **env)
 			close(prev_fd);
 		if (curr->next)
 		{
-			close(p.pipefd[1]);      // parent keeps read end
+			close(p.pipefd[1]); // parent keeps read end
 			prev_fd = p.pipefd[0];
 		}
 		curr = curr->next;
@@ -240,7 +321,7 @@ int	execute(t_cmd *cmds, t_cmd *cmds2, char **env)
 		return (-1);
 	waitpid(p.pid2, NULL, 0);
 	if (cmds2 == NULL)
-		return 1;
+		return (1);
 	return (0);
 }
 
