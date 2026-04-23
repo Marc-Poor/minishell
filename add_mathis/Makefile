@@ -6,7 +6,7 @@
 #    By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/03 20:11:23 by mathissegui       #+#    #+#              #
-#    Updated: 2026/04/21 19:10:17 by mfaure           ###   ########.fr        #
+#    Updated: 2026/04/23 20:25:28 by mfaure           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,20 +22,20 @@ SRC     =	main.c			\
 			syntax.c		\
 			token_debug.c	\
 			token.c			\
-			../pipex/close_all.c	\
-			../execute.c			\
-			../pipex/ft_split.c		\
-			../pipex/find_path.c		\
-			../pipex/ft_strcat.c		\
-			../pipex/ft_strncmp.c	\
-			../pipex/ft_strncpy.c	\
-			../ft_cd.c	\
-			../ft_export.c	\
-			../ft_unset.c	\
-			../ft_exit.c	\
-			../ft_env.c		\
-			../ft_pwd.c		\
-			../ft_echo.c
+			pipex/close_all.c	\
+			execute.c			\
+			pipex/ft_split.c		\
+			pipex/find_path.c		\
+			pipex/ft_strcat.c		\
+			pipex/ft_strncmp.c	\
+			pipex/ft_strncpy.c	\
+			ft_cd.c	\
+			ft_export.c	\
+			ft_unset.c	\
+			ft_exit.c	\
+			ft_env.c		\
+			ft_pwd.c		\
+			ft_echo.c
 
 OBJ		=	$(SRC:.c=.o)
 
@@ -54,8 +54,8 @@ $(NAME): $(LIBFT) $(OBJ)
 $(LIBFT):
 	$(MAKE) -C $(LIBFTDIR)
 
-%.o:	%.c
-		gcc -g3 -std=gnu17 -Wall -Wextra -Werror -O3 -c $< -o $@
+%.o: %.c
+	gcc -g3 -std=gnu17 -Wall -Wextra -Werror -O3 -fPIE -c $< -o $@
 
 
 clean:

@@ -1,0 +1,23 @@
+total 352
+-rw-r--r--  1 mfaure 2025_paris      4 Apr 20 13:29 debug.txt
+-rw-r--r--  1 mfaure 2025_paris   2661 Apr  6 17:31 expand.c
+-rw-r--r--. 1 mfaure 2025_paris     71 Apr 18 17:57 infile
+-rw-r--r--  1 mfaure 2025_paris   2396 Apr  6 17:31 lexer.c
+-rw-r--r--  1 mfaure 2025_paris   2132 Apr  6 17:31 lexer_quotes.c
+drwxr-xr-x  2 mfaure 2025_paris   4096 Apr 17 19:59 libft
+-rw-r--r--. 1 mfaure 2025_paris      0 Apr 18 17:31 ls
+-rwxr-xr-x  1 mfaure 2025_paris   2264 Apr 20 15:41 main.c
+-rw-r--r--  1 mfaure 2025_paris   1750 Apr 20 12:52 Makefile
+-rwxr-xr-x  1 mfaure 2025_paris 207208 Apr 20 16:08 minishell
+-rwxr-xr-x  1 mfaure 2025_paris   2854 Apr 20 15:41 minishell.h
+-rw-r--r--. 1 mfaure 2025_paris      3 Apr 20 15:54 outfile
+-rw-r--r--  1 mfaure 2025_paris   2730 Apr 15 18:10 parser.c
+-rw-r--r--  1 mfaure 2025_paris   1529 Apr 15 17:50 parser_debug.c
+-rw-r--r--  1 mfaure 2025_paris   1434 Apr 15 17:50 parser_free.c
+-rw-r--r--  1 mfaure 2025_paris   1338 Apr 15 17:50 parser_utils.c
+-rw-r--r--  1 mfaure 2025_paris      0 Apr 15 17:50 proces.c
+-rw-r--r--  1 mfaure 2025_paris   1748 Apr 15 17:50 syntax.c
+-rw-r--r--. 1 mfaure 2025_paris      0 Apr 20 16:08 test
+-rw-r--r--  1 mfaure 2025_paris  80047 Apr 15 17:50 test_minishell_generated.c
+-rwxr-xr-x  1 mfaure 2025_paris   1523 Apr  6 17:31 token.c
+-rw-r--r--  1 mfaure 2025_paris   1383 Apr  6 17:31 token_debug.c

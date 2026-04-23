@@ -6,16 +6,19 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:37:37 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/07 15:46:54 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/21 17:35:42 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 /*
-int find_in_env(char *str, char **env)
+int	find_in_env(char *str, char **env)
 {
-	int i;
-	int x;
+	int		i;
+	int		x;
+	char	**new_tab;
+	size_t	i;
 
 	i = 0;
 	while (env[i])
@@ -25,25 +28,21 @@ int find_in_env(char *str, char **env)
 			if (!is_alpha(env[i][x]))
 				-1;
 			x++;
-
 		if (ft_strncmp(str, env[i], x) == 0 && str[x] == '\0')
-			return i;
-
+			return (i);
 		i++;
 	}
-	return -1;
+	return (-1);
 }*/
-
-char **ft_realloc_tab(char **tab, size_t new_len)
+char	**ft_realloc_tab(char **tab, size_t new_len)
 {
+	size_t		i;
 	char	**new_tab;
-	size_t	i;
 
 	i = 0;
 	new_tab = malloc(sizeof(char *) * (new_len + 1));
 	if (!new_tab)
 		return (NULL);
-
 	while (tab && tab[i] && i < new_len)
 	{
 		new_tab[i] = ft_strdup(tab[i]);
@@ -60,37 +59,37 @@ char **ft_realloc_tab(char **tab, size_t new_len)
 	return (new_tab);
 }
 
-char **copy_tab(char **env)
+char	**copy_tab(char **env)
 {
-	int i;
-	char **copy;
+	int		i;
+	char	**copy;
 
 	i = 0;
-	while(env[i])
+	while (env[i])
 		i++;
 	copy = malloc(sizeof(char *) * (i + 1));
 	if (!copy)
-		return NULL;
+		return (NULL);
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		copy[i] = ft_strdup(env[i]);
 		i++;
 	}
 	copy[i] = NULL;
-	return copy;
+	return (copy);
 }
 
-char **ft_export(char *str, char **env)
+char	**ft_export(char *str, char **env)
 {
-	int i;
-	int x;
-	
+	int	i;
+	int	x;
+
 	if (!env)
-		return NULL; // potential error message needed
-	//if (!find_in_env(str, env)) {
+		return (NULL); // potential error message needed
+	// if (!find_in_env(str, env)) {
 	//	printf("bash: unset: '%s': not a valid identifier\n", str);
-	//	return NULL;
+	//	return (NULL);
 	//}
 	i = 0;
 	while (env[i])
@@ -98,27 +97,20 @@ char **ft_export(char *str, char **env)
 	env = ft_realloc_tab(env, i + 1);
 	env[i] = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	x = 0;
-    while (str[x])
-    {
-        env[i][x] = str[x];
-        x++;
-    }
-    env[i][x] = '\0';
-	//printf("str : %s\n", env[i]);
-	return env;
+	while (str[x])
+	{
+		env[i][x] = str[x];
+		x++;
+	}
+	env[i][x] = '\0';
+	// printf("str : %s\n", env[i]);
+	return (env);
 }
 
-int main(int ac, char **av, char **env)
+char	**ft_export_main(char **av, char **env)
 {
-	char **envcp;
-
-	if (ac != 3)
-		return 0;
-	envcp = copy_tab(env);
-	envcp = ft_export(av[1], envcp);
-	ft_env(envcp);
-	envcp = ft_unset(av[2], envcp);
-	printf("checkpoint\n\n");
-	ft_env(envcp);
-	return 0;
+	if (!av[1])
+		return (0);
+	env = ft_export(av[1], env);
+	return (env);
 }

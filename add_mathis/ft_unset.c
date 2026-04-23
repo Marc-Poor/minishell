@@ -6,11 +6,11 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:38:39 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/21 16:52:37 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/23 20:16:22 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "add_mathis/minishell.h"
+#include "minishell.h"
 
 int find_in_env(char *str, char **env)
 {
