@@ -6,7 +6,7 @@
 #    By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/03 20:11:23 by mathissegui       #+#    #+#              #
-#    Updated: 2026/04/20 12:52:38 by mfaure           ###   ########.fr        #
+#    Updated: 2026/04/21 19:10:17 by mfaure           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,14 @@ SRC     =	main.c			\
 			../pipex/find_path.c		\
 			../pipex/ft_strcat.c		\
 			../pipex/ft_strncmp.c	\
-			../pipex/ft_strncpy.c
+			../pipex/ft_strncpy.c	\
+			../ft_cd.c	\
+			../ft_export.c	\
+			../ft_unset.c	\
+			../ft_exit.c	\
+			../ft_env.c		\
+			../ft_pwd.c		\
+			../ft_echo.c
 
 OBJ		=	$(SRC:.c=.o)
 
