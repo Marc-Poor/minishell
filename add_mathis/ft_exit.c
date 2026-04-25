@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mseguin <mseguin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 16:11:42 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/25 15:25:24 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/25 19:27:47 by mseguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
+#include "./libft/libft.h"
 
 static int	is_numeric(char *str)
 {
@@ -53,31 +54,6 @@ static long	ft_atol(const char *str)
 	return (result * sign);
 }*/
 
-int	ft_atoi(char *str)
-{
-	int	i;
-	int	sign;
-	int	nbr;
-
-	sign = 1;
-	nbr = 0;
-	i = 0;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
-		i++;
-	while ((str[i] == '+' || str[i] == '-') && str[i] != '\0')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
-	while ((str[i] >= '0' && str[i] <= '9') && str[i] != '\0')
-	{
-		nbr = (nbr * 10) + (str[i] - '0');
-		i++;
-	}
-	return (nbr * sign);
-}
-
 int	ft_exit(char **argv)
 {
 	int	status;
@@ -94,6 +70,6 @@ int	ft_exit(char **argv)
 		fprintf(stderr, "exit: too many arguments\n");
 		return (1);
 	}
-	status = atoi(argv[1]);
+	status = ft_atoi(argv[1]);
 	exit(status);
 }
