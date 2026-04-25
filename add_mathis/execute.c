@@ -6,14 +6,14 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:52:58 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/23 20:15:40 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/25 17:52:47 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "pipex/pipex.h"
-#include <readline/readline.h>
 #include <readline/history.h>
+#include <readline/readline.h>
 
 void	free_command(char **tab)
 {
@@ -38,16 +38,15 @@ int	handle_heredoc(char *delimiter)
 
 	if (pipe(fd) == -1)
 		exit(1);
-
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			break;
+			break ;
 		if (strcmp(line, delimiter) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		print = write(fd[1], line, strlen(line));
 		print = write(fd[1], "\n", 1);
@@ -55,10 +54,9 @@ int	handle_heredoc(char *delimiter)
 			printf("fuck Werror\n");
 		free(line);
 	}
-
-	close(fd[1]); // important
-	return (fd[0]); // return read end
-}
+	close(fd[1]);// important
+	return (fd[0]);
+}// return read end
 
 void	exec_cmd(char **cmd, char **env)
 {
@@ -191,11 +189,11 @@ static void	close_fds_child(int prev_fd, t_pipex *p, t_cmd *cmd)
 		close(p->outfile);
 }
 
-char **exec_parent_built_in(t_cmd	*curr, char **env)
+char	**exec_parent_built_in(t_cmd *curr, char **env)
 {
 	if (strncmp(curr->argv[0], "cd", ft_strlen(curr->argv[0])) == 0)
-		if (ft_cd(curr->argv) == 1)
-			return NULL;
+		if (ft_cd(curr->argv, env) == 1)
+			return (NULL);
 	if (strncmp(curr->argv[0], "export", ft_strlen(curr->argv[0])) == 0)
 		return (ft_export_main(curr->argv, env));
 	if (strncmp(curr->argv[0], "unset", ft_strlen(curr->argv[0])) == 0)
@@ -207,6 +205,8 @@ char **exec_parent_built_in(t_cmd	*curr, char **env)
 
 int	exec_child_builtin(t_cmd *curr, char **env)
 {
+	if (!curr->argv[0])
+		return (0);
 	if (strcmp(curr->argv[0], "echo") == 0)
 		return (main_ft_echo(curr->argv));
 	if (strcmp(curr->argv[0], "pwd") == 0)
@@ -216,13 +216,14 @@ int	exec_child_builtin(t_cmd *curr, char **env)
 	return (-1);
 }
 
-int	execute(t_cmd *cmds, char ***env)
+int	execute(t_cmd *cmds, t_shell *shell)
 {
 	t_pipex	p;
 	int		prev_fd;
 	t_cmd	*curr;
-	char **tmp;
+	char	**tmp;
 	int		ret;
+	int		status;
 
 	prev_fd = -1;
 	curr = cmds;
@@ -230,21 +231,20 @@ int	execute(t_cmd *cmds, char ***env)
 	{
 		p.infile = -1;
 		p.outfile = -1;
-		if (curr && !curr->next && prev_fd == -1)
+		if (curr && !curr->next && prev_fd == -1 && curr->argv[0])
 		{
-			if (strncmp(curr->argv[0], "cd", 3) == 0
-				|| strncmp(curr->argv[0], "export", 7) == 0
-				|| strncmp(curr->argv[0], "unset", 6) == 0
-				|| strncmp(curr->argv[0], "exit", 5) == 0)
+			if (strcmp(curr->argv[0], "cd") == 0 || strcmp(curr->argv[0],
+					"export") == 0 || strcmp(curr->argv[0], "unset") == 0
+				|| strcmp(curr->argv[0], "exit") == 0)
 			{
-				tmp = exec_parent_built_in(curr, *env);
+				tmp = exec_parent_built_in(curr, shell->env);
 				if (tmp == NULL)
 					return (0);
-				*env = tmp;
+				shell->env = tmp;
 				return (0);
 			}
 		}
-		open_p(&p, curr, *env);
+		open_p(&p, curr, shell->env);
 		// create pipe only if needed
 		if (curr->next)
 		{
@@ -257,7 +257,8 @@ int	execute(t_cmd *cmds, char ***env)
 			// ---------- INPUT ----------
 			if (prev_fd != -1)
 				dup2(prev_fd, STDIN_FILENO);
-			if (curr->redirs && (curr->redirs->type == T_REDIR_IN || curr->redirs->type == T_HEREDOC))
+			if (curr->redirs && (curr->redirs->type == T_REDIR_IN
+					|| curr->redirs->type == T_HEREDOC))
 				dup2(p.infile, STDIN_FILENO);
 			// ---------- OUTPUT ----------
 			if (curr->next)
@@ -268,9 +269,9 @@ int	execute(t_cmd *cmds, char ***env)
 				dup2(p.outfile, STDOUT_FILENO);
 			// ---------- CLOSE FDS ----------
 			close_fds_child(prev_fd, &p, curr);
-			if ((ret = exec_child_builtin(curr, *env)) != -1)
+			if ((ret = exec_child_builtin(curr, shell->env)) != -1)
 				exit(ret);
-			exec_cmd(curr->argv, *env);
+			exec_cmd(curr->argv, shell->env);
 			exit(1);
 		}
 		// ---------- PARENT ----------
@@ -284,8 +285,13 @@ int	execute(t_cmd *cmds, char ***env)
 		curr = curr->next;
 	}
 	// ---------- WAIT ----------
-	while (wait(NULL) > 0)
-		;
+	while (wait(&status) > 0)
+	{
+		if (WIFEXITED(status))
+			shell->last_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			shell->last_status = 128 + WTERMSIG(status);
+	}
 	return (0);
 }
 

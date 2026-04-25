@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_debug.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 14:40:07 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/03/19 19:46:46 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/24 22:52:58 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,16 @@
 
 static const char	*type_name(t_tokentype t)
 {
-	if (t == T_WORD) return ("WORD");
-	if (t == T_PIPE) return ("PIPE");
-	if (t == T_REDIR_IN) return ("<");
-	if (t == T_REDIR_OUT) return (">");
-	if (t == T_REDIR_APPEND) return (">>");
+	if (t == T_WORD)
+		return ("WORD");
+	if (t == T_PIPE)
+		return ("PIPE");
+	if (t == T_REDIR_IN)
+		return ("<");
+	if (t == T_REDIR_OUT)
+		return (">");
+	if (t == T_REDIR_APPEND)
+		return (">>");
 	return ("<<");
 }
 

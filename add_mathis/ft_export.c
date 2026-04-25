@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:37:37 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/21 17:35:42 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/25 15:50:07 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,6 @@ char	**ft_export(char *str, char **env)
 
 	if (!env)
 		return (NULL); // potential error message needed
-	// if (!find_in_env(str, env)) {
-	//	printf("bash: unset: '%s': not a valid identifier\n", str);
-	//	return (NULL);
-	//}
 	i = 0;
 	while (env[i])
 		i++;
@@ -103,14 +99,45 @@ char	**ft_export(char *str, char **env)
 		x++;
 	}
 	env[i][x] = '\0';
-	// printf("str : %s\n", env[i]);
 	return (env);
+}
+//  printf("str : %s\n", env[i]);
+
+#include <stdio.h>
+
+int	is_valid_identifier(char *str)
+{
+	int	i;
+
+	if (!str || !str[0])
+		return (0);
+
+	if (!( (str[0] >= 'a' && str[0] <= 'z')
+		|| (str[0] >= 'A' && str[0] <= 'Z')
+		|| str[0] == '_' ))
+		return (0);
+
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!( (str[i] >= 'a' && str[i] <= 'z')
+			|| (str[i] >= 'A' && str[i] <= 'Z')
+			|| (str[i] >= '0' && str[i] <= '9')
+			|| str[i] == '_' ))
+			return (0);
+		i++;
+	}
+	return (1);
 }
 
 char	**ft_export_main(char **av, char **env)
 {
 	if (!av[1])
 		return (0);
+	if (!is_valid_identifier(av[1])) {
+		printf("bash: unset: '%s': not a valid identifier\n", av[1]);
+		return (NULL);
+	}
 	env = ft_export(av[1], env);
 	return (env);
 }

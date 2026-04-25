@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/24 22:59:06 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/25 17:39:12 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ static int	is_only_spaces(char *s)
 	return (1);
 }
 
-static void	process_line(char *line, char ***env)
+static void	process_line(char *line, t_shell *shell)
 {
 	t_token	*toks;
 	t_cmd	*cmds;
 
-	toks = tokenize_line(line, env);
+	toks = tokenize_line(line,  shell->env);
 	if (!toks)
 	{
 		printf("Erreur de syntaxe : quotes non fermées\n");
@@ -71,7 +71,7 @@ static void	process_line(char *line, char ***env)
 		return ;
 	}
 	print_cmds(cmds);
-	execute(cmds, env);
+	execute(cmds, shell);
 	free_cmds(&cmds);
 	clear_token(&toks);
 }
@@ -79,9 +79,10 @@ static void	process_line(char *line, char ***env)
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	char	**envcp;
+	t_shell *shell;
 
-	envcp = copy_tab(env);
+	shell = malloc(sizeof(t_shell));
+	shell->env = copy_tab(env);
 	if (ac == 0 || !av[0])
 		return 0;
 	setup_signals();
@@ -97,7 +98,7 @@ int	main(int ac, char **av, char **env)
 		if (line[0] != '\0' && !is_only_spaces(line))
 			add_history(line);
 		if (line[0] != '\0' && !is_only_spaces(line))
-			process_line(line, &envcp);
+			process_line(line, shell);
 		free(line);
 	}
 	clear_history();

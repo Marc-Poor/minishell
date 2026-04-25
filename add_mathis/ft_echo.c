@@ -6,35 +6,48 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 14:53:54 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/22 15:25:06 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/24 22:44:15 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex/pipex.h"
 
-void ft_echo(char **av, int x, int i)
+int	is_n_flag(char *s)
 {
-	while(av[x])
+	int	i;
+
+	if (!s || s[0] != '-' || s[1] == '\0')
+		return (0);
+	i = 1;
+	while (s[i])
 	{
-		if (i == 0)
-		{
-			printf("%s", av[x]);
-		} else {
-			printf("%s", av[x]);
-		}
-		if (av[x + 1])
-			printf(" ");
-		x++;
+		if (s[i] != 'n')
+			return (0);
+		i++;
 	}
+	return (1);
 }
 
-int main_ft_echo(char **av)
+int	main_ft_echo(char **av)
 {
-	if (ft_strncmp(av[1], "-n", ft_strlen(av[1])) == 0) {
-		ft_echo(av, 2, 0);
-		return 0;
+	int	i;
+	int	newline;
+
+	i = 1;
+	newline = 1;
+	while (av[i] && is_n_flag(av[i]))
+	{
+		newline = 0;
+		i++;
 	}
-	ft_echo(av, 1, 1);
-	printf("\n");
-	return 0;
+	while (av[i])
+	{
+		printf("%s", av[i]);
+		if (av[i + 1])
+			printf(" ");
+		i++;
+	}
+	if (newline)
+		printf("\n");
+	return (0);
 }

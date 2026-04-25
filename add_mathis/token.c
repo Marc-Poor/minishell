@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 15:57:12 by mseguin           #+#    #+#             */
-/*   Updated: 2026/03/17 18:56:24 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/24 22:52:42 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 t_token	*new_token(t_tokentype type, char *str)
 {
 	t_token	*t;
-	
+
 	t = malloc(sizeof(t_token));
-	if(!t)
+	if (!t)
 		return (NULL);
 	t->type = type;
 	t->str = str;
@@ -25,27 +25,27 @@ t_token	*new_token(t_tokentype type, char *str)
 	return (t);
 }
 
-void add_token(t_token **list, t_token *new)
+void	add_token(t_token **list, t_token *new)
 {
 	t_token	*cursor;
-	
+
 	if (!list || !new)
 		return ;
 	if (!*list)
 	{
 		*list = new;
-		return	;
+		return ;
 	}
 	cursor = *list;
 	while (cursor->next)
 		cursor = cursor->next;
-	cursor->next = new;	
+	cursor->next = new;
 }
 
-void clear_token(t_token **list)
+void	clear_token(t_token **list)
 {
-	t_token *temporary;
-	
+	t_token	*temporary;
+
 	if (!list)
 		return ;
 	while (*list)
