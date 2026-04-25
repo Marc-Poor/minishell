@@ -6,7 +6,7 @@
 /*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 18:31:40 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/04/25 16:00:54 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/25 17:26:49 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,24 @@ static int	is_var_char(char c)
 {
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'
 			&& c <= '9') || c == '_');
+}
+
+char	*env_get_value(char **env, char *key)
+{
+	int	i;
+	int	len;
+
+	if (!env || !key)
+		return (NULL);
+	i = 0;
+	len = ft_strlen(key);
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], key, len) == 0 && env[i][len] == '=')
+			return (env[i] + len + 1);
+		i++;
+	}
+	return (NULL);
 }
 
 static char	*get_var_value(char *name, char **env)
