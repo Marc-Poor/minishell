@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:02:18 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/23 20:13:09 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/24 22:59:08 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+typedef struct s_shell
+{
+	char	**env;
+	int		last_status;
+}	t_shell;
 
 
 int		ft_isdigit(int c);
@@ -83,7 +88,7 @@ void				print_tokens(t_token *lst);
 int					is_space(char c);
 int					is_op(char c);
 char				*word_dup(const char *s, int start, int end);
-t_token				*tokenize_line(const char *s);
+t_token				*tokenize_line(const char *s, char **env);
 
 int					word_len_no_quotes(const char *s, int start, int end);
 char				*word_dup_no_quotes(const char *s, int start, int end);
@@ -93,7 +98,8 @@ char				*expand_variables(char *str);
 
 char				*append_char(char *s, char c);
 char				*append_str(char *s, char *add);
-char				*expand_word(const char *s, int start, int end);
+char				*expand_word(const char *s, int start, int end, char **env);
+char				*env_get_value(char **env, char *key);
 
 int					check_syntax(t_token *lst);
 

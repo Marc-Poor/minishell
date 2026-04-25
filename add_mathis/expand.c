@@ -6,7 +6,7 @@
 /*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 18:31:40 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/03/27 19:04:49 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/25 16:00:54 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,27 @@ static int	is_var_char(char c)
 			&& c <= '9') || c == '_');
 }
 
-static char	*get_var_value(char *name)
+static char	*get_var_value(char *name, char **env)
 {
 	char	*value;
 
 	if (name[0] == '?' && name[1] == '\0')
 		return (ft_strdup("0"));
-	value = getenv(name);
+	value = env_get_value(env, name);
 	if (!value)
 		return (ft_strdup(""));
 	return (ft_strdup(value));
 }
 
-static char	*expand_dollar(const char *s, int *i)
+static char	*expand_dollar(const char *s, int *i, char **env)
 {
 	char	var[256];
 	int		j;
 
 	j = 0;
 	(*i)++;
+	if (!s[*i] || (!is_var_char(s[*i]) && s[*i] != '?'))
+		return (ft_strdup("$"));
 	if (s[*i] == '?')
 	{
 		var[j++] = s[*i];
@@ -52,7 +54,7 @@ static char	*expand_dollar(const char *s, int *i)
 		}
 	}
 	var[j] = '\0';
-	return (get_var_value(var));
+	return (get_var_value(var, env));
 }
 
 char	*append_char(char *s, char c)
@@ -76,7 +78,7 @@ char	*append_str(char *s, char *add)
 	return (new_s);
 }
 
-char	*expand_word(const char *s, int start, int end)
+char	*expand_word(const char *s, int start, int end, char **env)
 {
 	char *res;
 	char *tmp;
@@ -100,7 +102,7 @@ char	*expand_word(const char *s, int start, int end)
 			{
 				if (s[start] == '$')
 				{
-					tmp = expand_dollar(s, &start);
+					tmp = expand_dollar(s, &start, env);
 					res = append_str(res, tmp);
 					free(tmp);
 				}
@@ -112,7 +114,7 @@ char	*expand_word(const char *s, int start, int end)
 		}
 		else if (s[start] == '$')
 		{
-			tmp = expand_dollar(s, &start);
+			tmp = expand_dollar(s, &start, env);
 			res = append_str(res, tmp);
 			free(tmp);
 		}

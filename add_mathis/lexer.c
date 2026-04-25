@@ -6,7 +6,7 @@
 /*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 16:36:18 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/03/27 19:11:05 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/24 22:58:57 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*word_dup(const char *s, int start, int end)
 	return (word);
 }
 
-t_token	*tokenize_line(const char *s)
+t_token	*tokenize_line(const char *s, char **env)
 {
 	t_token *lst;
 	int i;
@@ -102,7 +102,7 @@ t_token	*tokenize_line(const char *s)
 		}
 		word = word_dup_no_quotes(s, i, end);
 		free(word);
-		add_token(&lst, new_token(T_WORD, expand_word(s, i, end)));
+		add_token(&lst, new_token(T_WORD, expand_word(s, i, end, env)));
 		i = end;
 	}
 	return (lst);
