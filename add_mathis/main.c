@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mseguin <mseguin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/25 17:39:12 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/25 19:21:26 by mseguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	process_line(char *line, t_shell *shell)
 	t_token	*toks;
 	t_cmd	*cmds;
 
-	toks = tokenize_line(line,  shell->env);
+	toks = tokenize_line(line, shell);
 	if (!toks)
 	{
 		printf("Erreur de syntaxe : quotes non fermées\n");

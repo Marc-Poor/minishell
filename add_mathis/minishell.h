@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mseguin <mseguin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:02:18 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/24 22:59:08 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/25 19:16:33 by mseguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,11 @@ int		ft_isalpha(int c);
 char	*ft_strdup(const char *src);
 char 	**ft_unset(char **av, char **env);
 char 	**ft_realloc_tab(char **tab, size_t new_len);
-int		execute(t_cmd *cmds,  char ***env);
+int		execute(t_cmd *cmds, t_shell *shell);
 char	**ft_export_main(char **av, char **env);
 void	close_all(int pipefd[2], int infile, int outfile);
 void	close_fd(int pipefd[2]);
-int		ft_cd(char **av);
+int		ft_cd(char **av, char **env);
 int		ft_exit(char **argv);
 char	**copy_tab(char **env);
 int 	main_ft_echo(char **av);
@@ -88,7 +88,7 @@ void				print_tokens(t_token *lst);
 int					is_space(char c);
 int					is_op(char c);
 char				*word_dup(const char *s, int start, int end);
-t_token				*tokenize_line(const char *s, char **env);
+t_token				*tokenize_line(const char *s, t_shell *shell);
 
 int					word_len_no_quotes(const char *s, int start, int end);
 char				*word_dup_no_quotes(const char *s, int start, int end);
@@ -98,8 +98,8 @@ char				*expand_variables(char *str);
 
 char				*append_char(char *s, char c);
 char				*append_str(char *s, char *add);
-char				*expand_word(const char *s, int start, int end, char **env);
-char				*env_get_value(char **env, char *key);
+char				*expand_word(const char *s, int start, int end, t_shell *shell);
+char				*env_get_value(t_shell *shell, char *key);
 
 int					check_syntax(t_token *lst);
 

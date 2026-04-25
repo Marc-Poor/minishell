@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mseguin <mseguin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 18:31:40 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/04/25 17:26:49 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/25 19:18:10 by mseguin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,37 +19,37 @@ static int	is_var_char(char c)
 			&& c <= '9') || c == '_');
 }
 
-char	*env_get_value(char **env, char *key)
+char	*env_get_value(t_shell *shell, char *key)
 {
 	int	i;
 	int	len;
 
-	if (!env || !key)
+	if (!shell->env || !key)
 		return (NULL);
 	i = 0;
 	len = ft_strlen(key);
-	while (env[i])
+	while (shell->env[i])
 	{
-		if (ft_strncmp(env[i], key, len) == 0 && env[i][len] == '=')
-			return (env[i] + len + 1);
+		if (ft_strncmp(shell->env[i], key, len) == 0 && shell->env[i][len] == '=')
+			return (shell->env[i] + len + 1);
 		i++;
 	}
 	return (NULL);
 }
 
-static char	*get_var_value(char *name, char **env)
+static char	*get_var_value(char *name, t_shell *shell)
 {
 	char	*value;
 
 	if (name[0] == '?' && name[1] == '\0')
-		return (ft_strdup("0"));
-	value = env_get_value(env, name);
+		return (ft_itoa(shell->last_status));
+	value = env_get_value(shell, name);
 	if (!value)
 		return (ft_strdup(""));
 	return (ft_strdup(value));
 }
 
-static char	*expand_dollar(const char *s, int *i, char **env)
+static char	*expand_dollar(const char *s, int *i, t_shell *shell)
 {
 	char	var[256];
 	int		j;
@@ -72,7 +72,7 @@ static char	*expand_dollar(const char *s, int *i, char **env)
 		}
 	}
 	var[j] = '\0';
-	return (get_var_value(var, env));
+	return (get_var_value(var, shell));
 }
 
 char	*append_char(char *s, char c)
@@ -96,7 +96,7 @@ char	*append_str(char *s, char *add)
 	return (new_s);
 }
 
-char	*expand_word(const char *s, int start, int end, char **env)
+char	*expand_word(const char *s, int start, int end, t_shell *shell)
 {
 	char *res;
 	char *tmp;
@@ -120,7 +120,7 @@ char	*expand_word(const char *s, int start, int end, char **env)
 			{
 				if (s[start] == '$')
 				{
-					tmp = expand_dollar(s, &start, env);
+					tmp = expand_dollar(s, &start, shell);
 					res = append_str(res, tmp);
 					free(tmp);
 				}
@@ -132,7 +132,7 @@ char	*expand_word(const char *s, int start, int end, char **env)
 		}
 		else if (s[start] == '$')
 		{
-			tmp = expand_dollar(s, &start, env);
+			tmp = expand_dollar(s, &start, shell);
 			res = append_str(res, tmp);
 			free(tmp);
 		}
