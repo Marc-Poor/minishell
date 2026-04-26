@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/26 19:15:15 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/26 22:03:50 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	handle_sigint(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
-static void	setup_signals(void)
+void	setup_signals(void)
 {
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
