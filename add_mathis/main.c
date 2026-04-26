@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mseguin <mseguin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/25 19:21:26 by mseguin          ###   ########.fr       */
+/*   Updated: 2026/04/26 19:02:44 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ volatile sig_atomic_t	g_sig = 0;
 
 static void	handle_sigint(int sig)
 {
-	g_sig = sig;
-
+	(void)sig;
+	g_sig = SIGINT;
 	printf("\n");
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
-
 static void	setup_signals(void)
 {
 	signal(SIGINT, handle_sigint);
