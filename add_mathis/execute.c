@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:52:58 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/25 18:40:11 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/26 18:00:24 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,8 @@ int	execute(t_cmd *cmds, t_shell *shell)
 		p.pid = fork();
 		if (p.pid == 0)
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			// ---------- INPUT ----------
 			if (prev_fd != -1)
 				dup2(prev_fd, STDIN_FILENO);
@@ -290,7 +292,13 @@ int	execute(t_cmd *cmds, t_shell *shell)
 		if (WIFEXITED(status))
 			shell->last_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
+			else if (WTERMSIG(status) == SIGQUIT)
+				write(1, "Quit: 3\n", 8);
 			shell->last_status = 128 + WTERMSIG(status);
+		}
 	}
 	return (0);
 }
