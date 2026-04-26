@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:52:58 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/26 20:44:38 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/26 22:01:45 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,8 @@ int	execute(t_cmd *cmds, t_shell *shell)
 
 	prev_fd = -1;
 	curr = cmds;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	while (curr)
 	{
 		p.infile = -1;
@@ -305,6 +307,7 @@ int	execute(t_cmd *cmds, t_shell *shell)
 			shell->last_status = 128 + WTERMSIG(status);
 		}
 	}
+	setup_signals();
 	return (0);
 }
 
