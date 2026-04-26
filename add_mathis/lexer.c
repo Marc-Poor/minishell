@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mseguin <mseguin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 16:36:18 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/04/25 19:15:32 by mseguin          ###   ########.fr       */
+/*   Updated: 2026/04/26 20:58:35 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,10 @@ char	*word_dup(const char *s, int start, int end)
 
 t_token	*tokenize_line(const char *s, t_shell *shell)
 {
-	t_token *lst;
-	int i;
-	int end;
-	char *word;
+	t_token	*lst;
+	int		i;
+	int		end;
+	char	*word;
 
 	lst = NULL;
 	i = 0;

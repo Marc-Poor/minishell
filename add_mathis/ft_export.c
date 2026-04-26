@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:37:37 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/26 20:41:49 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/26 21:03:52 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	find_in_env(char *str, char **env)
 char	**ft_realloc_tab(char **tab, size_t new_len)
 {
 	size_t		i;
-	char	**new_tab;
+	char		**new_tab;
 
 	i = 0;
 	new_tab = malloc(sizeof(char *) * (new_len + 1));
@@ -86,7 +86,7 @@ char	**ft_export(char *str, char **env)
 	int	x;
 
 	if (!env)
-		return (NULL); // potential error message needed
+		return (NULL);
 	i = 0;
 	while (env[i])
 		i++;
@@ -103,25 +103,21 @@ char	**ft_export(char *str, char **env)
 }
 //  printf("str : %s\n", env[i]);
 
-#include <stdio.h>
-
 int	is_valid_identifier(char *str)
 {
 	int	i;
 
 	if (!str || !str[0])
 		return (0);
-	if (!( (str[0] >= 'a' && str[0] <= 'z')
-		|| (str[0] >= 'A' && str[0] <= 'Z')
-		|| str[0] == '_' ))
+	if (!((str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' && str[0] <= 'Z')
+			|| str[0] == '_'))
 		return (0);
 	i = 1;
 	while (str[i] && str[i] != '=')
 	{
-		if (!( (str[i] >= 'a' && str[i] <= 'z')
-			|| (str[i] >= 'A' && str[i] <= 'Z')
-			|| (str[i] >= '0' && str[i] <= '9')
-			|| str[i] == '_' ))
+		if (!((str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A'
+					&& str[i] <= 'Z') || (str[i] >= '0' && str[i] <= '9')
+				|| str[i] == '_'))
 			return (0);
 		i++;
 	}
@@ -130,20 +126,22 @@ int	is_valid_identifier(char *str)
 
 char	**ft_export_main(char **av, char **env)
 {
-	int i;
-	int x;
+	int	i;
+	int	x;
 
 	if (!av[1])
 		return (0);
 	i = 1;
 	while (av[i])
 	{
-		if (!is_valid_identifier(av[i])) {
+		if (!is_valid_identifier(av[i]))
+		{
 			perror("bash: unset: not a valid identifier");
 			free(env);
 			return (NULL);
 		}
-		if ((x = find_in_env(av[i], env)) > 0)
+		x = find_in_env(av[i], env);
+		if (x > 0)
 		{
 			free(env[x]);
 			env[x] = ft_strdup(av[i]);

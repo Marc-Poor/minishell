@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mseguin <mseguin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 18:31:40 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/04/25 19:18:10 by mseguin          ###   ########.fr       */
+/*   Updated: 2026/04/26 21:06:06 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	*env_get_value(t_shell *shell, char *key)
 	len = ft_strlen(key);
 	while (shell->env[i])
 	{
-		if (ft_strncmp(shell->env[i], key, len) == 0 && shell->env[i][len] == '=')
+		if (ft_strncmp(shell->env[i], key, len) == 0
+			&& shell->env[i][len] == '=')
 			return (shell->env[i] + len + 1);
 		i++;
 	}
@@ -98,9 +99,9 @@ char	*append_str(char *s, char *add)
 
 char	*expand_word(const char *s, int start, int end, t_shell *shell)
 {
-	char *res;
-	char *tmp;
-	char quote;
+	char	*res;
+	char	*tmp;
+	char	quote;
 
 	res = ft_strdup("");
 	while (start < end)

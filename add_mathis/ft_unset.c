@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:38:39 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/26 20:41:40 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/26 20:54:26 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,6 @@ int	find_in_env(char *str, char **env)
 	int	i;
 	int	x;
 
-	i = 0;
-	// while (str[i] && str[i] != '=')
-	//{
-	//	if (!ft_isalpha(str[i]))
-	//		return (-2);
-	//	i++;
-	//}
 	i = 0;
 	while (env[i])
 	{
@@ -40,7 +33,7 @@ int	find_in_env(char *str, char **env)
 char	**ft_unset(char **av, char **env)
 {
 	int	x;
-	int i;
+	int	i;
 
 	if (!av[1] || !env)
 		return (NULL);
@@ -50,8 +43,7 @@ char	**ft_unset(char **av, char **env)
 		x = find_in_env(av[i], env);
 		if (x < 0)
 		{
-			//printf("%i\n", x);
-			//printf("bash: unset: '%s': not a valid identifier\n", av[1]);
+			printf("bash: unset: '%s': not a valid identifier\n", av[1]);
 			return (env);
 		}
 		free(env[x]);
@@ -64,3 +56,5 @@ char	**ft_unset(char **av, char **env)
 	}
 	return (env);
 }
+
+//printf("%i\n", x);
