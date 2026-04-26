@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:38:39 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/26 16:36:55 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/26 20:41:40 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	find_in_env(char *str, char **env)
 			return (i);
 		i++;
 	}
-	printf("%s\n", env[i - 1]);
 	return (-1);
 }
 

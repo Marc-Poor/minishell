@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:52:58 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/26 20:13:55 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/26 20:44:38 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	exec_cmd(char **cmd, char **env)
 	path = find_path(env, cmd[0], 0);
 	if (!path || path[0] == '\0')
 	{
-		printf(" : Command not found\n");
+		perror(cmd[0]);
 		free_command(cmd);
 		exit(127);
 	}
@@ -244,7 +244,7 @@ int	execute(t_cmd *cmds, t_shell *shell)
 			{
 				tmp = exec_parent_built_in(curr, shell->env);
 				if (tmp == NULL)
-					return (0);
+					return (1);
 				shell->env = tmp;
 				return (0);
 			}
