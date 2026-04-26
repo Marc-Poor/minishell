@@ -6,7 +6,7 @@
 /*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:02:18 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/26 22:06:09 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/27 00:48:16 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ typedef struct s_shell
 	int				last_status;
 }					t_shell;
 
+typedef struct s_dup
+{
+	char			*word;
+	int				i;
+	int				end;
+}					t_dup;
+
 int					ft_isdigit(int c);
 int					ft_isalpha(int c);
 char				*ft_strdup(const char *src);
@@ -100,6 +107,10 @@ char				*append_str(char *s, char *add);
 char				*expand_word(const char *s, int start, int end,
 						t_shell *shell);
 char				*env_get_value(t_shell *shell, char *key);
+
+int					is_var_char(char c);
+char				*get_var_value(char *name, t_shell *shell);
+char				*get_var_value(char *name, t_shell *shell);
 
 int					check_syntax(t_token *lst);
 

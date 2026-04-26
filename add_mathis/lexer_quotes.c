@@ -6,7 +6,7 @@
 /*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 19:33:07 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/03/19 19:53:54 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/26 22:29:59 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,51 @@ int	word_len_no_quotes(const char *s, int start, int end)
 	return (len);
 }
 
+static int	copy_quote(const char *s, int start, t_dup *dup)
+{
+	char	quote;
+
+	quote = s[start];
+	start++;
+	while (start < dup->end && s[start] != quote)
+	{
+		dup->word[dup->i] = s[start];
+		dup->i++;
+		start++;
+	}
+	if (start < dup->end)
+		start++;
+	return (start);
+}
+
+static void	copy_char(const char *s, int *start, t_dup *dup)
+{
+	dup->word[dup->i] = s[*start];
+	dup->i++;
+	(*start)++;
+}
+
+char	*word_dup_no_quotes(const char *s, int start, int end)
+{
+	t_dup	dup;
+
+	dup.word = malloc(sizeof(char) * (word_len_no_quotes(s, start, end) + 1));
+	if (!dup.word)
+		return (NULL);
+	dup.i = 0;
+	dup.end = end;
+	while (start < end)
+	{
+		if (s[start] == '\'' || s[start] == '"')
+			start = copy_quote(s, start, &dup);
+		else
+			copy_char(s, &start, &dup);
+	}
+	dup.word[dup.i] = '\0';
+	return (dup.word);
+}
+
+/*
 char	*word_dup_no_quotes(const char *s, int start, int end)
 {
 	char	*word;
@@ -98,3 +143,4 @@ char	*word_dup_no_quotes(const char *s, int start, int end)
 	word[i] = '\0';
 	return (word);
 }
+*/

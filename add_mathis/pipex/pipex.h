@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 17:13:46 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/22 19:10:10 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/26 20:05:59 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 typedef struct s_pipex
 {
-	pid_t 	pid;
+	pid_t	pid;
 	pid_t	pid1;
 	pid_t	pid2;
 	int		infile;
@@ -37,7 +37,7 @@ typedef struct s_pipex
 	int		pipefd[2];
 	int		wstatus;
 	int		wstatus2;
-	int 	status;
+	int		status;
 }			t_pipex;
 
 char		*ft_realloc_str(char *str, size_t new_len);

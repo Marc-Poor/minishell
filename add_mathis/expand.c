@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/27 18:31:40 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/04/26 21:06:06 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/27 00:48:51 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "minishell.h"
 
-static int	is_var_char(char c)
+int	is_var_char(char c)
 {
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0'
 			&& c <= '9') || c == '_');
@@ -38,7 +38,7 @@ char	*env_get_value(t_shell *shell, char *key)
 	return (NULL);
 }
 
-static char	*get_var_value(char *name, t_shell *shell)
+char	*get_var_value(char *name, t_shell *shell)
 {
 	char	*value;
 
@@ -50,7 +50,7 @@ static char	*get_var_value(char *name, t_shell *shell)
 	return (ft_strdup(value));
 }
 
-static char	*expand_dollar(const char *s, int *i, t_shell *shell)
+char	*expand_dollar(const char *s, int *i, t_shell *shell)
 {
 	char	var[256];
 	int		j;
@@ -88,15 +88,7 @@ char	*append_char(char *s, char c)
 	return (new_s);
 }
 
-char	*append_str(char *s, char *add)
-{
-	char	*new_s;
-
-	new_s = ft_strjoin(s, add);
-	free(s);
-	return (new_s);
-}
-
+/*
 char	*expand_word(const char *s, int start, int end, t_shell *shell)
 {
 	char	*res;
@@ -142,3 +134,4 @@ char	*expand_word(const char *s, int start, int end, t_shell *shell)
 	}
 	return (res);
 }
+*/
