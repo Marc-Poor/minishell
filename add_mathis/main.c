@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/26 19:04:13 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/26 19:15:15 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ static void	process_line(char *line, t_shell *shell)
 		clear_token(&toks);
 		return ;
 	}
-	print_tokens(toks);
+	//print_tokens(toks);
 	cmds = parse_commands(toks);
 	if (!cmds)
 	{
 		clear_token(&toks);
 		return ;
 	}
-	print_cmds(cmds);
+	//print_cmds(cmds);
 	execute(cmds, shell);
 	free_cmds(&cmds);
 	clear_token(&toks);

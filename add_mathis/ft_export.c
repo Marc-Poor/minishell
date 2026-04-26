@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 17:37:37 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/25 15:50:07 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/26 17:30:45 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,12 +111,10 @@ int	is_valid_identifier(char *str)
 
 	if (!str || !str[0])
 		return (0);
-
 	if (!( (str[0] >= 'a' && str[0] <= 'z')
 		|| (str[0] >= 'A' && str[0] <= 'Z')
 		|| str[0] == '_' ))
 		return (0);
-
 	i = 1;
 	while (str[i] && str[i] != '=')
 	{
@@ -132,12 +130,27 @@ int	is_valid_identifier(char *str)
 
 char	**ft_export_main(char **av, char **env)
 {
+	int i;
+	int x;
+
 	if (!av[1])
 		return (0);
-	if (!is_valid_identifier(av[1])) {
-		printf("bash: unset: '%s': not a valid identifier\n", av[1]);
-		return (NULL);
+	i = 1;
+	while (av[i])
+	{
+		if (!is_valid_identifier(av[i])) {
+			perror("bash: unset: not a valid identifier");
+			free(env);
+			return (NULL);
+		}
+		if ((x = find_in_env(av[i], env)) > 0)
+		{
+			free(env[x]);
+			env[x] = ft_strdup(av[i]);
+			return (env);
+		}
+		env = ft_export(av[i], env);
+		i++;
 	}
-	env = ft_export(av[1], env);
 	return (env);
 }

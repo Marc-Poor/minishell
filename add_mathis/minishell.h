@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:02:18 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/26 18:07:16 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/26 20:07:33 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,14 @@ int		execute(t_cmd *cmds, t_shell *shell);
 char	**ft_export_main(char **av, char **env);
 void	close_all(int pipefd[2], int infile, int outfile);
 void	close_fd(int pipefd[2]);
-int		ft_cd(char **av, char **env);
+char	**ft_cd(char **av, char **env);
 int		ft_exit(char **argv);
 char	**copy_tab(char **env);
 int 	main_ft_echo(char **av);
 int 	ft_pwd(char **env);
 int 	ft_env(char **env);
+int		find_in_env(char *str, char **env);
+char	**ft_export(char *str, char **env);
 
 
 t_token				*new_token(t_tokentype type, char *str);

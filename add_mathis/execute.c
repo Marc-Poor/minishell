@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 16:52:58 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/26 18:00:24 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/26 20:13:55 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,12 @@ void	exec_cmd(char **cmd, char **env)
 	if (!cmd[0])
 	{
 		free(cmd);
+		exit(127);
+	}
+	if (strchr(cmd[0], '/'))
+	{
+		execve(cmd[0], cmd, env);
+		perror(cmd[0]);
 		exit(127);
 	}
 	path = find_path(env, cmd[0], 0);
@@ -191,14 +197,13 @@ static void	close_fds_child(int prev_fd, t_pipex *p, t_cmd *cmd)
 
 char	**exec_parent_built_in(t_cmd *curr, char **env)
 {
-	if (strncmp(curr->argv[0], "cd", ft_strlen(curr->argv[0])) == 0)
-		if (ft_cd(curr->argv, env) == 1)
-			return (NULL);
-	if (strncmp(curr->argv[0], "export", ft_strlen(curr->argv[0])) == 0)
+	if (strcmp(curr->argv[0], "cd") == 0)
+		return (ft_cd(curr->argv, env));
+	if (strcmp(curr->argv[0], "export") == 0)
 		return (ft_export_main(curr->argv, env));
-	if (strncmp(curr->argv[0], "unset", ft_strlen(curr->argv[0])) == 0)
+	if (strcmp(curr->argv[0], "unset") == 0)
 		return (ft_unset(curr->argv, env));
-	if (strncmp(curr->argv[0], "exit", ft_strlen(curr->argv[0])) == 0)
+	if (strcmp(curr->argv[0], "exit") == 0)
 		ft_exit(curr->argv);
 	return (env);
 }
@@ -294,9 +299,9 @@ int	execute(t_cmd *cmds, t_shell *shell)
 		else if (WIFSIGNALED(status))
 		{
 			if (WTERMSIG(status) == SIGINT)
-				write(1, "\n", 1);
+				printf("\n");
 			else if (WTERMSIG(status) == SIGQUIT)
-				write(1, "Quit: 3\n", 8);
+				printf("Quit: 3\n");
 			shell->last_status = 128 + WTERMSIG(status);
 		}
 	}
