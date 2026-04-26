@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mseguin <mseguin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 16:02:18 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/25 19:16:33 by mseguin          ###   ########.fr       */
+/*   Updated: 2026/04/26 18:07:16 by mathissegui      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stddef.h>
 # include <stdio.h>
 # include <string.h>
+# include <signal.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
