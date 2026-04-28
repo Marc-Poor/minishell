@@ -6,7 +6,7 @@
 /*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 02:36:53 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/04/24 22:51:28 by mfaure           ###   ########.fr       */
+/*   Updated: 2026/04/28 18:25:26 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,33 @@ void	free_cmds(t_cmd **cmds)
 		*cmds = tmp;
 	}
 }
+
+int	free_env(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	if (!shell->env)
+	{
+		if (shell)
+			free(shell);
+		return (0);
+	}
+	while (shell->env[i])
+		free(shell->env[i++]);
+	free(shell->env);
+	free(shell);
+	return (0);
+}
+/*
+void	cleanup(t_shell *shell, t_cmd *cmds)
+{
+	if (cmds)
+		free_cmds(cmds);
+
+	if (shell)
+	{
+		if (shell->env)
+			free_env(shell->env);
+	}
+}*/

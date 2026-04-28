@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   expand_word.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 00:41:39 by mathissegui       #+#    #+#             */
-/*   Updated: 2026/04/27 00:45:27 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/27 01:01:04 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft/libft.h"
 
 char	*append_str(char *s, char *add)
 {

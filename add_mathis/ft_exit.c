@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mseguin <mseguin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 16:11:42 by mfaure            #+#    #+#             */
-/*   Updated: 2026/04/25 19:27:47 by mseguin          ###   ########.fr       */
+/*   Updated: 2026/04/28 20:02:54 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ int	ft_exit(char **argv)
 		exit(0);
 	if (!is_numeric(argv[1]))
 	{
-		fprintf(stderr, "exit: %s: numeric argument required\n", argv[1]);
+		status = write(2, argv[1], ft_strlen(argv[1]));
+		status = write(2, ": exit: numeric argument required\n", 35);
 		exit(2);
 	}
 	if (argv[2])
 	{
-		fprintf(stderr, "exit: too many arguments\n");
+		perror("exit: too many arguments\n");
 		return (1);
 	}
 	status = ft_atoi(argv[1]);

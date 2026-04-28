@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mathisseguin <mathisseguin@student.42.f    +#+  +:+       +#+        */
+/*   By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 13:27:17 by mseguin           #+#    #+#             */
-/*   Updated: 2026/04/26 22:06:07 by mathissegui      ###   ########.fr       */
+/*   Updated: 2026/04/28 18:23:04 by mfaure           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,12 @@ static void	process_line(char *line, t_shell *shell)
 		clear_token(&toks);
 		return ;
 	}
-	//print_tokens(toks);
 	cmds = parse_commands(toks);
 	if (!cmds)
 	{
 		clear_token(&toks);
 		return ;
 	}
-	//print_cmds(cmds);
 	execute(cmds, shell);
 	free_cmds(&cmds);
 	clear_token(&toks);
@@ -80,12 +78,12 @@ static void	process_line(char *line, t_shell *shell)
 int	main(int ac, char **av, char **env)
 {
 	char	*line;
-	t_shell *shell;
+	t_shell	*shell;
 
 	shell = malloc(sizeof(t_shell));
 	shell->env = copy_tab(env);
 	if (ac == 0 || !av[0])
-		return 0;
+		return (0);
 	setup_signals();
 	while (1)
 	{
@@ -93,7 +91,7 @@ int	main(int ac, char **av, char **env)
 		line = readline("minishell$ ");
 		if (!line)
 		{
-				printf("exit\n");
+			printf("exit\n");
 			break ;
 		}
 		if (line[0] != '\0' && !is_only_spaces(line))
@@ -103,5 +101,8 @@ int	main(int ac, char **av, char **env)
 		free(line);
 	}
 	clear_history();
-	return (0);
+	return (free_env(shell));
 }
+
+////		if (g_sig == SIGINT)
+//			shell->last_status = 130;

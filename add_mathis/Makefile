@@ -6,7 +6,7 @@
 #    By: mfaure <mfaure@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/04/03 20:11:23 by mathissegui       #+#    #+#              #
-#    Updated: 2026/04/23 20:25:28 by mfaure           ###   ########.fr        #
+#    Updated: 2026/04/28 20:19:53 by mfaure           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,14 @@ SRC     =	main.c			\
 			ft_exit.c	\
 			ft_env.c		\
 			ft_pwd.c		\
-			ft_echo.c
+			ft_echo.c		\
+			open_p.c		\
+			exec_builtin.c	\
+			exec_cmd.c		\
+			execute_child.c	\
+			expand_word.c	\
+			ft_strcmp.c		\
+			heredoc.c
 
 OBJ		=	$(SRC:.c=.o)
 
